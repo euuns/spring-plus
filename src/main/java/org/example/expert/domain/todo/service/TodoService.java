@@ -17,6 +17,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -47,11 +51,26 @@ public class TodoService {
         );
     }
 
-    public Page<TodoResponse> getTodos(int page, int size) {
+    public Page<TodoResponse> getTodos(int page, int size, String weather, LocalDate startedAt, LocalDate endedAt) {
         Pageable pageable = PageRequest.of(page - 1, size);
+        Map<String, LocalDate> dateRange = getSearchDateRange(startedAt, endedAt);
 
-        Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
+        // 검색 기간 x
+        if (dateRange.isEmpty()) {
+            Page<Todo> todos = getTodosOnWeather(weather, pageable);
+            return todos.map(todo -> new TodoResponse(
+                    todo.getId(),
+                    todo.getTitle(),
+                    todo.getContents(),
+                    todo.getWeather(),
+                    new UserResponse(todo.getUser().getId(), todo.getUser().getEmail()),
+                    todo.getCreatedAt(),
+                    todo.getModifiedAt()
+            ));
+        }
 
+        // 검색 기간 o
+        Page<Todo> todos = getTodosOnWeatherDateRange(weather, dateRange, pageable);
         return todos.map(todo -> new TodoResponse(
                 todo.getId(),
                 todo.getTitle(),
@@ -62,6 +81,7 @@ public class TodoService {
                 todo.getModifiedAt()
         ));
     }
+
 
     public TodoResponse getTodo(long todoId) {
         Todo todo = todoRepository.findByIdWithUser(todoId)
@@ -78,5 +98,48 @@ public class TodoService {
                 todo.getCreatedAt(),
                 todo.getModifiedAt()
         );
+    }
+
+
+    private Page<Todo> getTodosOnWeather(String weather, Pageable pageable) {
+        if (weather == null) {
+            // 검색 기간 x weather 조건 x
+            return todoRepository.findAllByOrderByModifiedAtDesc(pageable);
+        }
+        // 검색 기간 x weather 조건 o
+        return todoRepository.findAllByWeatherOrderByModifiedAt(weather, pageable);
+    }
+
+    private Page<Todo> getTodosOnWeatherDateRange(String weather, Map<String, LocalDate> range, Pageable pageable) {
+        if (weather == null) {
+            // 검색 기간 o weather 조건 x
+            return todoRepository.findAllByDateRange(range.get("startedAt"), range.get("endedAt"), pageable);
+        }
+        // 검색 기간 o weather 조건 o
+        return todoRepository.findTodosByWeatherAndDateRange(weather, range.get("startedAt"), range.get("endedAt"), pageable);
+    }
+
+    private Map<String, LocalDate> getSearchDateRange(LocalDate startedAt, LocalDate endedAt) {
+        Map<String, LocalDate> period = new HashMap<>();
+
+        // 시작 ~
+        if (startedAt != null && endedAt == null) {
+            period.put("startedAt", startedAt);
+            period.put("endedAt", LocalDate.now());
+        }
+
+        // ~ 끝
+        if (startedAt == null && endedAt != null) {
+            period.put("startedAt", LocalDate.MIN);
+            period.put("endedAt", endedAt);
+        }
+
+        // 시작 ~ 끝
+        if (startedAt != null && endedAt != null) {
+            period.put("startedAt", startedAt);
+            period.put("endedAt", endedAt);
+        }
+
+        return period;
     }
 }
