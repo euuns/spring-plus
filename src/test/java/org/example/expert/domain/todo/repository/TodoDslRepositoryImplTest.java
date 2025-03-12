@@ -34,7 +34,7 @@ class TodoDslRepositoryImplTest {
 
     @BeforeEach
     void setup() {
-        user = new User("email@email.com", "pass1234!", UserRole.USER, "nickname");
+        user = new User("email@email.com", "pass1234!", UserRole.ROLE_USER, "nickname");
         User saveUser = userRepository.save(user);
         todo = new Todo("title", "contents", "weather", saveUser);
         todoRepository.save(todo);
