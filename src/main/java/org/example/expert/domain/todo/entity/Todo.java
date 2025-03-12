@@ -28,7 +28,7 @@ public class Todo extends Timestamped {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.PERSIST)
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "todo", cascade = CascadeType.PERSIST)

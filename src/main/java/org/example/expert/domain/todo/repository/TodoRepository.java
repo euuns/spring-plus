@@ -18,7 +18,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, TodoDslReposi
 
     @Query("SELECT t FROM Todo t LEFT JOIN FETCH t.user u " +
             "WHERE t.modifiedAt BETWEEN :startedAt AND :endedAt ORDER BY t.modifiedAt DESC")
-    Page<Todo> findAllByDateRange(LocalDate startedAt, LocalDate endedAt, Pageable pageable);
+    Page<Todo> findAllByModifiedAtDateRange(LocalDate startedAt, LocalDate endedAt, Pageable pageable);
 
     @Query("SELECT t FROM Todo t " +
             "LEFT JOIN FETCH t.user u " +

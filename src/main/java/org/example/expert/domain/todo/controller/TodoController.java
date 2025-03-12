@@ -6,6 +6,7 @@ import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
+import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
 import org.example.expert.domain.todo.service.TodoService;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,4 +45,15 @@ public class TodoController {
     public ResponseEntity<TodoResponse> getTodo(@PathVariable long todoId) {
         return ResponseEntity.ok(todoService.getTodo(todoId));
     }
+
+    @GetMapping("/search/todos")
+    public ResponseEntity<Page<TodoSearchResponse>> searchTodo(@RequestParam(defaultValue = "1") int page,
+                                                               @RequestParam(defaultValue = "10") int size,
+                                                               @RequestParam(required = false) String title,
+                                                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startedAt,
+                                                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endedAt,
+                                                               @RequestParam(required = false) String manager) {
+        return ResponseEntity.ok(todoService.searchTodo(page, size, title, startedAt, endedAt, manager));
+    }
+
 }

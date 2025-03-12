@@ -69,7 +69,7 @@ class TodoServiceTest {
         ReflectionTestUtils.setField(todo2, "modifiedAt", modifiedAt2);
 
         Page<Todo> page = new PageImpl<>(List.of(todo1));
-        given(todoRepository.findAllByDateRange(eq(startedAt), eq(LocalDate.now()), any())).willReturn(page);
+        given(todoRepository.findAllByModifiedAtDateRange(eq(startedAt), eq(LocalDate.now()), any())).willReturn(page);
 
         Page<TodoResponse> pageList = todoService.getTodos(1, 5, null, startedAt, null);
         List<TodoResponse> todoList = pageList.get().toList();
@@ -95,10 +95,10 @@ class TodoServiceTest {
         ReflectionTestUtils.setField(todo3, "modifiedAt", modifiedAt3);
 
         Page<Todo> page1 = new PageImpl<>(List.of(todo1, todo2));
-        given(todoRepository.findAllByDateRange(eq(LocalDate.MIN), eq(endedAt), any())).willReturn(page1);
+        given(todoRepository.findAllByModifiedAtDateRange(eq(LocalDate.MIN), eq(endedAt), any())).willReturn(page1);
 
         Page<Todo> page2 = new PageImpl<>(List.of(todo1, todo2, todo3));
-        given(todoRepository.findAllByDateRange(eq(startedAt), eq(endedAt), any())).willReturn(page2);
+        given(todoRepository.findAllByModifiedAtDateRange(eq(startedAt), eq(endedAt), any())).willReturn(page2);
 
         Page<TodoResponse> notStartedAtPage = todoService.getTodos(1, 5, null, null, endedAt);
         List<TodoResponse> todoList1 = notStartedAtPage.get().toList();

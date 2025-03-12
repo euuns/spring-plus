@@ -7,6 +7,7 @@ import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
+import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.dto.response.UserResponse;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,6 +102,26 @@ public class TodoService {
         );
     }
 
+    public Page<TodoSearchResponse> searchTodo(int page, int size, String title, LocalDate startedAt, LocalDate endedAt, String manager) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Map<String, LocalDate> dateRange = getSearchDateRange(startedAt, endedAt);
+
+        if (title != null) {
+            return todoRepository.findAllByTitleContaining(title, pageable);
+        }
+        if (manager != null) {
+            return todoRepository.findAllByManagersNicknameContaining(manager, pageable);
+        }
+        if (!dateRange.isEmpty()) {
+            LocalDateTime from = dateRange.get("startedAt").atStartOfDay();
+            LocalDateTime to = dateRange.get("endedAt").atStartOfDay();
+
+            return todoRepository.findAllByCreatedAtDateRange(from, to, pageable);
+        }
+
+        throw new InvalidRequestException("검색 조건을 입력해주세요.");
+    }
+
 
     private Page<Todo> getTodosOnWeather(String weather, Pageable pageable) {
         if (weather == null) {
@@ -113,7 +135,7 @@ public class TodoService {
     private Page<Todo> getTodosOnWeatherDateRange(String weather, Map<String, LocalDate> range, Pageable pageable) {
         if (weather == null) {
             // 검색 기간 o weather 조건 x
-            return todoRepository.findAllByDateRange(range.get("startedAt"), range.get("endedAt"), pageable);
+            return todoRepository.findAllByModifiedAtDateRange(range.get("startedAt"), range.get("endedAt"), pageable);
         }
         // 검색 기간 o weather 조건 o
         return todoRepository.findTodosByWeatherAndDateRange(weather, range.get("startedAt"), range.get("endedAt"), pageable);
