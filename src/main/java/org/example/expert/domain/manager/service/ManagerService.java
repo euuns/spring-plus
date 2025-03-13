@@ -1,8 +1,10 @@
 package org.example.expert.domain.manager.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
+import org.example.expert.domain.log.service.LogService;
 import org.example.expert.domain.manager.dto.request.ManagerSaveRequest;
 import org.example.expert.domain.manager.dto.response.ManagerResponse;
 import org.example.expert.domain.manager.dto.response.ManagerSaveResponse;
@@ -20,6 +22,7 @@ import org.springframework.util.ObjectUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
