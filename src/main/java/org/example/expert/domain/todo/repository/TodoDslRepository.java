@@ -12,7 +12,4 @@ import java.util.Optional;
 public interface TodoDslRepository {
     Optional<Todo> findByIdWithUser(Long todoId);
     Page<TodoSearchResponse> searchTodo(String title, LocalDateTime from, LocalDateTime to, String nickname, Pageable pageable);
-    Page<TodoSearchResponse> findAllByTitleContaining(String title, Pageable pageable);
-    Page<TodoSearchResponse> findAllByCreatedAtDateRange(LocalDateTime from, LocalDateTime to, Pageable pageable);
-    Page<TodoSearchResponse> findAllByManagersNicknameContaining(String nickname, Pageable pageable);
 }

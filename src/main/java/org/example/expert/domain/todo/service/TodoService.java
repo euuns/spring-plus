@@ -103,27 +103,6 @@ public class TodoService {
         );
     }
 
-//    public Page<TodoSearchResponse> searchTodo(int page, int size, String title, LocalDate startedAt, LocalDate endedAt, String manager) {
-//        Pageable pageable = PageRequest.of(page - 1, size);
-//        Map<String, LocalDate> dateRange = getSearchDateRange(startedAt, endedAt);
-//
-//        if (title != null) {
-//            return todoRepository.findAllByTitleContaining(title, pageable);
-//        }
-//        if (manager != null) {
-//            return todoRepository.findAllByManagersNicknameContaining(manager, pageable);
-//        }
-//        if (!dateRange.isEmpty()) {
-//            LocalDateTime from = dateRange.get("startedAt").atStartOfDay();
-//            LocalDateTime to = dateRange.get("endedAt").atStartOfDay();
-//
-//            return todoRepository.findAllByCreatedAtDateRange(from, to, pageable);
-//        }
-//
-//        throw new InvalidRequestException("검색 조건을 입력해주세요.");
-//    }
-
-
     public Page<TodoSearchResponse> searchTodo(int page, int size, String title, LocalDate startedAt, LocalDate endedAt, String manager) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Map<String, LocalDate> dateRange = getSearchDateRange(startedAt, endedAt);

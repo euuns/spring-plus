@@ -97,24 +97,24 @@ class TodoDslRepositoryImplTest {
         assertEquals(getTodo.get().getUser().getEmail(), user1.getEmail());
     }
 
-    @Test
-    public void findAllByTitleContainingTest() {
-        Page<TodoSearchResponse> searchTitle = todoRepository.findAllByTitleContaining("공부", pageable);
-        List<TodoSearchResponse> list = searchTitle.toList();
-
-        assertEquals(2, list.size());
-        assertEquals(1, list.get(0).getTotalManagers());
-        assertEquals(0, list.get(0).getTotalComments());
-        assertEquals(2, list.get(1).getTotalComments());
-    }
-
-    @Test
-    public void findAllByManagersNicknameContainingTest() {
-        Page<TodoSearchResponse> searchNickname = todoRepository.findAllByManagersNicknameContaining("nick", pageable);
-        List<TodoSearchResponse> list = searchNickname.toList();
-
-        assertEquals(list.get(0).getTitle(), "title");
-    }
+//    @Test
+//    public void findAllByTitleContainingTest() {
+//        Page<TodoSearchResponse> searchTitle = todoRepository.findAllByTitleContaining("공부", pageable);
+//        List<TodoSearchResponse> list = searchTitle.toList();
+//
+//        assertEquals(2, list.size());
+//        assertEquals(1, list.get(0).getTotalManagers());
+//        assertEquals(0, list.get(0).getTotalComments());
+//        assertEquals(2, list.get(1).getTotalComments());
+//    }
+//
+//    @Test
+//    public void findAllByManagersNicknameContainingTest() {
+//        Page<TodoSearchResponse> searchNickname = todoRepository.findAllByManagersNicknameContaining("nick", pageable);
+//        List<TodoSearchResponse> list = searchNickname.toList();
+//
+//        assertEquals(list.get(0).getTitle(), "title");
+//    }
 
     @Test
     public void searchTodoTest_title_검색() {
