@@ -8,6 +8,7 @@ class ExpertApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("testCode");
     }
 
 }
