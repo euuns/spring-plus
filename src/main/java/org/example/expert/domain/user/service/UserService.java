@@ -3,6 +3,7 @@ package org.example.expert.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
+import org.example.expert.domain.user.dto.response.UserNicknameResponse;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
@@ -39,6 +40,11 @@ public class UserService {
         }
 
         user.changePassword(bCryptPasswordEncoder.encode(userChangePasswordRequest.getNewPassword()));
+    }
+
+    public UserNicknameResponse getUserNickname(String nickname) {
+        User user = userRepository.findByNicknameOnFullTextIndexing(nickname);
+        return new UserNicknameResponse(user.getId(), user.getEmail(), user.getNickname());
     }
 
     private static void validateNewPassword(UserChangePasswordRequest userChangePasswordRequest) {
