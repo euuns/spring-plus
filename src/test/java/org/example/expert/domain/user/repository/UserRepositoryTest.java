@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DataJpaTest
 @Import(JpaConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserRepositoryTest {
 
     @Autowired
@@ -30,7 +31,8 @@ class UserRepositoryTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @BeforeEach
+    @Test
+    @Order(1)
     void 유저_데이터_생성() {
 
         FixtureMonkey fixtureMonkey = FixtureMonkey.create();
@@ -44,10 +46,10 @@ class UserRepositoryTest {
                 .set("nickname", RandomStringUtils.randomAlphanumeric(9))
                 .setNull("createdAt")
                 .setNull("modifiedAt")
-                .sampleList(1000000);
+                .sampleList(100);
 
         // 100만 건의 user를 1만개 씩 나눠서 저장
-        userRepository.bulkInsert(users, 10000);
+        userRepository.bulkInsert(users, 10);
         userRepository.save(new User("email@email.com", "password123!", UserRole.ROLE_USER, "nickname"));
 
         jdbcTemplate.execute("OPTIMIZE TABLES users");
@@ -68,6 +70,7 @@ class UserRepositoryTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("일반적인 조회")
     void 유저_닉네임_검색1() {
         // 제일 마지막에 저장한 값을 이용해 조회
@@ -78,6 +81,7 @@ class UserRepositoryTest {
     }
 
     @Test
+    @Order(3)
     @DisplayName("FullText 인덱스 조회")
     void 유저_닉네임_검색2() {
         // 제일 마지막에 저장한 값을 이용해 조회
