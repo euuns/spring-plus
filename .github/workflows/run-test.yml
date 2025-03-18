@@ -31,6 +31,12 @@ jobs:
 
       - name: make executable gradlew
         run: chmod +x ./gradlew
+
+      - name: set environment
+        run: |
+          echo "SPRING_PROFILES_ACTIVE=test" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_URL=jdbc:h2:mem:test" >> $GITHUB_ENV
+          echo "spring.main.allow-bean-definition-overriding=true" >> $GITHUB_ENV
       
           # run은 사용자 지정 스크립트 실행
       - name: run unittest
