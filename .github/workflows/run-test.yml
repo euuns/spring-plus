@@ -42,11 +42,10 @@ jobs:
       - name: make executable gradlew
         run: chmod +x ./gradlew
 
-      - name: set environment
+      - name: create application.properties
         run: |
-          echo "SPRING_PROFILES_ACTIVE=test" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_URL=jdbc:h2:mem:test" >> $GITHUB_ENV
-          echo "spring.main.allow-bean-definition-overriding=true" >> $GITHUB_ENV
+          mkdir -p src/main/resources
+          echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.properties
       
           # run은 사용자 지정 스크립트 실행
       - name: run unittest
