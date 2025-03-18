@@ -66,31 +66,31 @@ class TodoDslRepositoryImplTest {
     private Pageable pageable = PageRequest.of(0, 5);
 
 
-    @Transactional
-    @BeforeEach
-    void setup() {
-        user1 = new User("testeamil@example.com", "pass1234!", UserRole.ROLE_USER, "user1");
-        user2 = new User("testemails@example.com", "pass1234!", UserRole.ROLE_USER, "user2");
-        userRepository.save(user1);
-        userRepository.save(user2);
-
-        todo1 = new Todo("공부하기", "contents", "맑음", user1);
-        todo2 = new Todo("공부", "contents", "흐림", user2);
-        todo3 = new Todo("운동하기", "contents", "맑음", user1);
-
-        todoRepository.save(todo1);
-        todoRepository.save(todo2);
-        todoRepository.save(todo3);
-
-        comment1 = new Comment("user1 todo1", user1, todo1);
-        comment2 = new Comment("user2 todo1", user2, todo1);
-
-        commentRepository.save(comment1);
-        commentRepository.save(comment2);
-
-        Manager manager = new Manager(user2, todo1);
-        managerRepository.save(manager);
-    }
+//    @Transactional
+//    @BeforeEach
+//    void setup() {
+//        user1 = new User("testeamil@example.com", "pass1234!", UserRole.ROLE_USER, "user1");
+//        user2 = new User("testemails@example.com", "pass1234!", UserRole.ROLE_USER, "user2");
+//        userRepository.save(user1);
+//        userRepository.save(user2);
+//
+//        todo1 = new Todo("공부하기", "contents", "맑음", user1);
+//        todo2 = new Todo("공부", "contents", "흐림", user2);
+//        todo3 = new Todo("운동하기", "contents", "맑음", user1);
+//
+//        todoRepository.save(todo1);
+//        todoRepository.save(todo2);
+//        todoRepository.save(todo3);
+//
+//        comment1 = new Comment("user1 todo1", user1, todo1);
+//        comment2 = new Comment("user2 todo1", user2, todo1);
+//
+//        commentRepository.save(comment1);
+//        commentRepository.save(comment2);
+//
+//        Manager manager = new Manager(user2, todo1);
+//        managerRepository.save(manager);
+//    }
 
     @Test
     public void findByIdWithUserTest() {

@@ -29,6 +29,12 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: --build-cache --parallel :application:test --stacktrace --info
+          cache-read-only: false
+
       - name: make executable gradlew
         run: chmod +x ./gradlew
 
