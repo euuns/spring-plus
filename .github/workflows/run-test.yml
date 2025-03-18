@@ -32,13 +32,24 @@ jobs:
       - name: make executable gradlew
         run: chmod +x ./gradlew
 
+      - name: MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          container port: 3307
+          character set server: 'utf8'
+          collation server: 'utf8_general_ci'
+          mysql version: '8.0'
+          mysql database: plus
+          mysql user: developer
+          mysql password: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+
       - name: create application.properties
         run: |
           mkdir -p src/main/resources
           echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.properties
       
-
-      # run은 사용자 지정 스크립트 실행
+          # run은 사용자 지정 스크립트 실행
       - name: run unittest
         run: |
           ./gradlew clean test
