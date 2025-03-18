@@ -2,7 +2,7 @@ package org.example.expert.domain.user.repository;
 
 import com.navercorp.fixturemonkey.FixtureMonkey;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.example.expert.config.queryTestConfig;
+import org.example.expert.config.JpaConfig;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.enums.UserRole;
 import org.junit.jupiter.api.*;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ActiveProfiles("test")
 @DataJpaTest
-@Import(queryTestConfig.class)
+@Import(JpaConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class UserRepositoryTest {
 

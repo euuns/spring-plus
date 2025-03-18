@@ -2,7 +2,6 @@ package org.example.expert.domain.todo.controller;
 
 import org.example.expert.config.JwtUtil;
 import org.example.expert.config.WithMockAuthUser;
-import org.example.expert.config.jwtTestConfig;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.service.TodoService;
@@ -26,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ActiveProfiles("test")
 @WebMvcTest(TodoController.class)
-@Import(jwtTestConfig.class)
+@Import(JwtUtil.class)
 class TodoControllerTest {
 
     @Autowired
