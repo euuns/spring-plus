@@ -26,7 +26,7 @@ jobs:
           mysql version: '8.0'
           mysql database: testdb
           mysql user: 'developer'
-          mysql password: ${{ secrets.DATASOURCE_PASSWORD }}
+          mysql password: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
 
       # uses는 github actions에서 제공하는 플러그인 실행.(git checkout 실행)
       - name: checkout
