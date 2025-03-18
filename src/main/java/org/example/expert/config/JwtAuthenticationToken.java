@@ -7,7 +7,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     private final AuthUser authUser;
 
-    JwtAuthenticationToken(AuthUser authUser) {
+    public JwtAuthenticationToken(AuthUser authUser) {
         super(authUser.getAuthorities());
         this.authUser = authUser;
         setAuthenticated(true);

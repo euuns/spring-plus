@@ -21,6 +21,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -33,7 +35,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class TodoDslRepositoryImplTest {
 
     private static final Logger log = LoggerFactory.getLogger(TodoDslRepositoryImplTest.class);
@@ -68,8 +69,8 @@ class TodoDslRepositoryImplTest {
     @Transactional
     @BeforeEach
     void setup() {
-        user1 = new User("email@example.com", "pass1234!", UserRole.ROLE_USER, "user1");
-        user2 = new User("emails@example.com", "pass1234!", UserRole.ROLE_USER, "user2");
+        user1 = new User("testeamil@example.com", "pass1234!", UserRole.ROLE_USER, "user1");
+        user2 = new User("testemails@example.com", "pass1234!", UserRole.ROLE_USER, "user2");
         userRepository.save(user1);
         userRepository.save(user2);
 

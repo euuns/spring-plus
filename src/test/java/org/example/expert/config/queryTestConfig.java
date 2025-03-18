@@ -1,4 +1,4 @@
-package org.example.expert;
+package org.example.expert.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
 @TestConfiguration
-public class TestConfig {
+public class queryTestConfig {
 
     @PersistenceContext
     private EntityManager entityManager;
