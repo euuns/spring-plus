@@ -11,12 +11,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ActiveProfiles("test")
 @DataJpaTest
 @Import(queryTestConfig.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -28,28 +30,28 @@ class UserRepositoryTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-//    @BeforeEach
-//    void 유저_데이터_생성() {
-//
-//        FixtureMonkey fixtureMonkey = FixtureMonkey.create();
-//        AtomicLong idGenerator = new AtomicLong(1);
-//
-//        List<User> users = fixtureMonkey.giveMeBuilder(User.class)
-//                .set("id", idGenerator.getAndIncrement())
-//                .setLazy("email", () -> RandomStringUtils.randomAlphanumeric(9) + "@gmail.com")
-//                .set("password", "password123!")
-//                .set("userRole", UserRole.ROLE_USER)
-//                .set("nickname", RandomStringUtils.randomAlphanumeric(9))
-//                .setNull("createdAt")
-//                .setNull("modifiedAt")
-//                .sampleList(1000000);
-//
-//        // 100만 건의 user를 1만개 씩 나눠서 저장
-//        userRepository.bulkInsert(users, 10000);
-//        userRepository.save(new User("email@email.com", "password123!", UserRole.ROLE_USER, "nickname"));
-//
-//        jdbcTemplate.execute("OPTIMIZE TABLES users");
-//    }
+    @BeforeEach
+    void 유저_데이터_생성() {
+
+        FixtureMonkey fixtureMonkey = FixtureMonkey.create();
+        AtomicLong idGenerator = new AtomicLong(1);
+
+        List<User> users = fixtureMonkey.giveMeBuilder(User.class)
+                .set("id", idGenerator.getAndIncrement())
+                .setLazy("email", () -> RandomStringUtils.randomAlphanumeric(9) + "@gmail.com")
+                .set("password", "password123!")
+                .set("userRole", UserRole.ROLE_USER)
+                .set("nickname", RandomStringUtils.randomAlphanumeric(9))
+                .setNull("createdAt")
+                .setNull("modifiedAt")
+                .sampleList(1000000);
+
+        // 100만 건의 user를 1만개 씩 나눠서 저장
+        userRepository.bulkInsert(users, 10000);
+        userRepository.save(new User("email@email.com", "password123!", UserRole.ROLE_USER, "nickname"));
+
+        jdbcTemplate.execute("OPTIMIZE TABLES users");
+    }
 
     private long startTime;
 

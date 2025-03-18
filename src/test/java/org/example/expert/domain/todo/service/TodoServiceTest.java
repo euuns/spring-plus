@@ -14,6 +14,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
+@ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 class TodoServiceTest {
 
@@ -40,24 +42,24 @@ class TodoServiceTest {
     Todo todo2;
     Todo todo3;
 
-//    @BeforeEach
-//    void setUp() {
-//        todo1 = new Todo("운동하기", "내용", "맑음", new User());
-//        todo2 = new Todo("공부하기", "내용", "흐림", new User());
-//        todo3 = new Todo("공부", "내용", "맑음", new User());
-//
-//        LocalDateTime modifiedAt1 = LocalDateTime.of(2024, 12, 31, 12, 12);
-//        LocalDateTime modifiedAt2 = LocalDateTime.of(2025, 2, 28, 12, 12);
-//        LocalDateTime modifiedAt3 = LocalDateTime.of(2025, 3, 31, 12, 12);
-//
-//        todoRepository.save(todo1);
-//        todoRepository.save(todo2);
-//        todoRepository.save(todo3);
-//
-//        ReflectionTestUtils.setField(todo1, "modifiedAt", modifiedAt1);
-//        ReflectionTestUtils.setField(todo2, "modifiedAt", modifiedAt2);
-//        ReflectionTestUtils.setField(todo3, "modifiedAt", modifiedAt3);
-//    }
+    @BeforeEach
+    void setUp() {
+        todo1 = new Todo("운동하기", "내용", "맑음", new User());
+        todo2 = new Todo("공부하기", "내용", "흐림", new User());
+        todo3 = new Todo("공부", "내용", "맑음", new User());
+
+        LocalDateTime modifiedAt1 = LocalDateTime.of(2024, 12, 31, 12, 12);
+        LocalDateTime modifiedAt2 = LocalDateTime.of(2025, 2, 28, 12, 12);
+        LocalDateTime modifiedAt3 = LocalDateTime.of(2025, 3, 31, 12, 12);
+
+        todoRepository.save(todo1);
+        todoRepository.save(todo2);
+        todoRepository.save(todo3);
+
+        ReflectionTestUtils.setField(todo1, "modifiedAt", modifiedAt1);
+        ReflectionTestUtils.setField(todo2, "modifiedAt", modifiedAt2);
+        ReflectionTestUtils.setField(todo3, "modifiedAt", modifiedAt3);
+    }
 
 
     @Test
