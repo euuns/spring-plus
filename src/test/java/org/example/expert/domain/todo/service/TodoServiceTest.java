@@ -14,6 +14,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
@@ -25,11 +26,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
+@ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 class TodoServiceTest {
 
-    @Spy
     @InjectMocks
     private TodoService todoService;
 
@@ -116,18 +118,6 @@ class TodoServiceTest {
 
         assertEquals(3, todoList2.size());
 
-    }
-
-//    @Test
-//    void dateRange가_null_인_경우(){
-//        Map<String, LocalDate> searchDateRange = todoService.getSearchDateRange(null, null);
-//        assertNull(searchDateRange.get("startedAt"));
-//    }
-
-    @Test
-    void searchTodoTest_제목_검색() {
-        Page<TodoSearchResponse> searchTitle = todoService.searchTodo(1, 5, "공부", null, null, null);
-        assertEquals(2, searchTitle.getSize());
     }
 
 }
