@@ -18,6 +18,16 @@ jobs:
 
     # 실제 실행 스크립트
     steps:
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306
+          container port: 3306
+          mysql version: '8.0'
+          mysql database: testdb
+          mysql user: 'developer'
+          mysql password: ${{ secrets.DATASOURCE_PASSWORD }}
+
       # uses는 github actions에서 제공하는 플러그인 실행.(git checkout 실행)
       - name: checkout
         uses: actions/checkout@v4

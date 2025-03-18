@@ -1,10 +1,11 @@
 spring:
-datasource:
-  url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=MYSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
-  driver-class-name: org.h2.Driver
-  username: sa
-jpa:
-  database-platform: org.hibernate.dialect.H2Dialect
-  hibernate:
-    ddl-auto: update
-  show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/testdb
+    username: developer
+    password: ${{ secrets.DATASOURCE_PASSWORD }}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
