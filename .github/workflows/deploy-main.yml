@@ -18,10 +18,10 @@ jobs:
         uses: cloudtype-github-actions/deploy@v1
         with:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
-          project:
+          project: dmsu2/spring-plus
           stage: main
           yaml: |
-            name: dmsu2/spring-plus
+            name: spring-plus
             app: java@17
             options:
               ports: 8080
