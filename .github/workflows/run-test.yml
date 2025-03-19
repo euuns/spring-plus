@@ -49,10 +49,5 @@ jobs:
       
           # run은 사용자 지정 스크립트 실행
       - name: run unittest
-        env:
-          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/plus?rewriteBatchedStatements=true
-          SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
-          SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
         run: |
           ./gradlew clean test -P spring.profiles.active=test
