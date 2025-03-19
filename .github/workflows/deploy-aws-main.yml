@@ -8,6 +8,9 @@ on:
 
 jobs:
   deploy:
+    env:
+      S3_BUCKET_DIR_NAME: test
+      DEPLOYMENT_GROUP_NAME: deploy-user-group
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,19 +39,25 @@ jobs:
           target: "~"
           strip_components: 2
 
-      - name: SSH Commands
-        uses: appleboy/ssh-action@v0.1.6
+      - name: archive awsbeginner
+        run: tar cvfz ./awsbeginner.tar.gz *
+
+      - name: Zip project files
+        run: zip -r ./$GITHUB_SHA.zip .
+
+      - name: AWS configure credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ubuntu
-          key: ${{ secrets.SSH_KEY }}
-          port: 22
-          script_stop: true
-          script: |
-            for pid in $(pgrep java); do
-              if ps -p $pid -o args= | grep -q 'java -jar'; then
-                echo "Java process with 'java -jar' found (PID: $pid). Terminating..."
-                kill -9 $pid
-              fi
-            done
-            echo "nohup java -jar ~/*.jar > ~/app.log 2>&1 &" | at now
+          aws-access-key-id: ${{ secrets.DEPLOY_USER_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.DEPLOY_USER_SECRET_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ secrets.S3_BUCKET_NAME }}/${{ env.S3_BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
+
+      - name: deploy with AWS codeDeploy
+        run: aws deploy create-deployment
+          --application-name codedeploy-app
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name ${{ env.DEPLOYMENT_GROUP_NAME }}
+          --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=${{ env.S3_BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
