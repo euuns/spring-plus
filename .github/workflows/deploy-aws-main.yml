@@ -45,7 +45,6 @@ jobs:
           port: 22
           script_stop: true
           script: |
-            sudo apt update -y && sudo apt install -y amazon-corretto-21
             for pid in $(pgrep java); do
               if ps -p $pid -o args= | grep -q 'java -jar'; then
                 echo "Java process with 'java -jar' found (PID: $pid). Terminating..."
