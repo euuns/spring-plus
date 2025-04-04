@@ -28,7 +28,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
-@ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 class TodoServiceTest {
 
